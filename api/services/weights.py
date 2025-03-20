@@ -10,7 +10,7 @@ class WeightsService:
             data = json.load(file)
             
         for stock in data:
-            if stock['ticker'] == self.ticker:
+            if stock['ticker'].lower() == self.ticker.lower():
                 return stock['weights']
                     
         raise ValueError(f"Não foi possível encontrar os pesos para o ticker {self.ticker}")
