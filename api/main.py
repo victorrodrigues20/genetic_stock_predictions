@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from api.core.models import PredictPayload
 from api.services.prediction import PredictionService
 from api.services.weights import WeightsService
@@ -25,4 +25,7 @@ def read_item(payload:PredictPayload):
         prediction_service = PredictionService(weights_service)
         return { "prediction": prediction_service.predict(payload) }
     except Exception as e:
-        return { "error" : str(e) }
+        raise HTTPException(
+            status_code=422,
+            detail="Dados insuficientes para realizar o cálculo de previsão."
+        )
